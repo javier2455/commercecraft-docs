@@ -1,0 +1,137 @@
+---
+title: Proyectos con varios productTypes
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+Para añadir el campo productType al objeto Product es necesario modificar el mapeador de productos, que convierte los datos que vienen de la API al objeto Product que llega a los componentes del frontend. El mapeador se encuentra en la dirección:
+
+> packages/poc/backend/commerce-commercetools/mappers/ProductMapper.ts
+
+En ese fichero se debe añadir el segmento de código siguiente, teniendo en cuenta algunas modificaciones.
+
+```ts
+let productType = '';
+if (commercetoolsProduct?.productType?.id === '4988518d-ae9d-4fce-aec0-4d4352113144') {
+  	​productType = 'coffee';
+} else if (commercetoolsProduct?.productType?.id === '7ff82b57-20ae-4992-a512-7e93723d31ab') {
+  	​productType = 'machines';
+} else if (commercetoolsProduct?.productType?.id === '3ef4780c-af71-4653-82b3-874ba2ebb5f4') {
+  	​productType = 'accessories';
+}
+
+const product: Product = {
+
+  productType: productType,
+  ...
+}
+```
+
+En este código se verifica los ID de los productTypes que llegan desde API , y se realiza el mapeo de cada uno con el nombre para tratar de mejor forma los productTypes. Lo importante es adaptar este código según sea el proyecto, donde se deben cambiar los ID y los nombres. Así en cada producto quedará su productType.
+
+<Aside>Hay que refrescar varias veces el navegador para que surja efecto, idealmente limpiando caché o simplemente Ctrl +F5</Aside>
+
+### Cuando hay varios product tiles (plp) y diferentes pdps
+
+<Tabs>
+  <TabItem label="Ejemplo 1">
+    <img src="/productTypes/manyProductType1.png" alt="Stars example" />
+  </TabItem>
+  <TabItem label="Ejemplo 2">
+    <img src="/productTypes/manyProductType2.png" alt="Moons example 1" />
+  </TabItem>
+  <TabItem label="Ejemplo 3">
+    <img src="/productTypes/manyProductType3.png" alt="Moons example 2" />
+  </TabItem>
+</Tabs>
+
+En estos casos se pueden replicar los componentes de product tile y product details, solo el index de esos componentes, algo así:
+
+<img src="/productTypes/productStructure.png" alt="Moons example 1" />
+
+Luego, en los componentes donde se usan los product tile, en dependencia del tipo de producto, se carga el componente necesario.
+
+Seguidamente se muestra un un ejemplo de la vista del product list, donde es necesario modificar el siguiente fichero 
+
+> packages/poc/frontend/components/commercetools-ui/organisms/product/product-list/components/plp-product-tile-wrapper/index.tsx
+
+En ese fichero se debe añadir el segmento de código siguiente, teniendo en cuenta las modificaciones necesarias:
+
+```ts
+//import components of product-tiles
+import ProductTileAccessories from '../../../product-tile/accessories';
+import ProductTileCoffee from '../../../product-tile/coffee';
+import ProductTileMachines from '../../../product-tile/machines';
+...
+```
+
+```ts
+if (product.productType === 'coffee') {
+  return <ProductTileCoffee product={product} isSearchResult={isSearchResult} onClick={onClick} />;
+}
+if (product.productType === 'machines') {
+  return <ProductTileMachines product={product} isSearchResult={isSearchResult} onClick={onClick} />;
+}
+if (product.productType === 'accessories') {
+  return <ProductTileAccessories product={product} isSearchResult={isSearchResult} onClick={onClick} />;
+}
+```
+
+De igual forma se puede hacer con los detalles de los productos (pdp) si son diferentes, en ese caso duplicamos el index del product-detail:
+
+<img src="/productTypes/productStructure2.png" alt="Moons example 1" />
+
+Luego, en los componentes donde se usa, en dependencia del tipo de producto, es necesario modificar el siguiente fichero:
+
+
+> packages/poc/frontend/components/commercetools-ui/organisms/product/product-details/helpers/adapter.tsx
+
+```ts
+//import components of product details
+```
+
+```ts
+import ProductDetailsAccessories from '../accessories';
+import ProductDetailsCoffee, { ProductDetailsProps } from '../coffee';
+import ProductDetailsMachines from '../machines';
+```
+
+```ts
+return product.productType === 'coffee' ? (
+  <ProductDetailsCoffee
+    product={{ ...mappedProduct, images: [mappedProduct.images[0]] }}
+    variant={variant}
+    category={category}
+    url={product._url}
+    inModalVersion={inModalVersion}
+    onChangeVariant={handleChangeVariant}
+    setIsOpen={setIsOpen}
+    onAddToCart={onAddToCart}
+  />
+) : product.productType === 'machines' ? (
+  <ProductDetailsMachines
+    product={{ ...mappedProduct, images: [mappedProduct.images[0]] }}
+    variant={variant}
+    category={category}
+    url={product._url}
+    inModalVersion={inModalVersion}
+    onChangeVariant={handleChangeVariant}
+    setIsOpen={setIsOpen}
+    onAddToCart={onAddToCart}
+  />
+) : product.productType === 'accessories' ? (
+  <ProductDetailsAccessories
+    product={{ ...mappedProduct, images: [mappedProduct.images[0]] }}
+    variant={variant}
+    category={category}
+    url={product._url}
+    inModalVersion={inModalVersion}
+    onChangeVariant={handleChangeVariant}
+    setIsOpen={setIsOpen}
+    onAddToCart={onAddToCart}
+  />
+) : null;
+```
+
+Debemos tener en cuenta que si es necesario duplicar alguno de los componentes internos de los detalles del producto podemos seguir el mismo enfoque.

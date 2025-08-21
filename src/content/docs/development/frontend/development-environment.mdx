@@ -1,0 +1,56 @@
+---
+title: Preparando el entorno de desarrollo
+---
+
+import { Code } from '@astrojs/starlight/components';
+
+export const code1 = `Set-ExecutionPolicy RemoteSigned -Scope CurrentUser`;
+export const code2 = `iwr -useb get.scoop.sh | iex`;
+export const code3 = `Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression`;
+export const code4 = `Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression`;
+export const code5 = `Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression`;
+export const code6 = `scoop bucket add FrontasticGmbH_scoop-bucket https://github.com/FrontasticGmbH/scoop-bucket`;
+
+### Pasos para preparar el entorno de desarrollo
+
+Para comenzar a preparar el entorno de desarrollo en nuestra pc con Windows, comenzamos ejecutando los siguientes comandos  en nuestra consola para instalar el frontastic (puede ser powershell o el cmd, siempre ejecutándolo como administrador).
+
+<Code code={code1} lang="text" title="powershell" />
+
+<Code code={code2} lang="text" title="powershell" />
+
+En caso de no funcionar o dar error 400 usar:
+
+<Code code={code3} lang="text" title="powershell" />
+
+Con estos comando tendremos instalado scoop que usaremos para la instalación de frontastic. Luego ejecutamos los siguientes dos comandos:
+
+<Code code={code4} lang="text" title="powershell" />
+
+<Code code={code5} lang="text" title="powershell" />
+
+### Errores comunes
+
+Si durante la instalación reciben algunos de los siguientes errores a continuación se explica posibles vías de solución:
+
+#### Error
+
+Couldn't find manifest for 'frontastic-cli'
+
+#### Solución
+
+Verificar a través del comando: scoop bucket list, que se encuentre el registro del archivo:
+
+"FrontasticGmbH_scoop-bucket **https://github.com/FrontasticGmbH/scoop-bucket** `fecha de la instalación` en la lista de instalaciones, en caso de que no se encuentre volver a ejecutar el comando:
+
+<Code code={code6} lang="text" title="powershell" />
+
+hasta que se agregue a la lista. En caso de no agregarse ejecutar el comando "scoop bucket add extras" y luego volver a ejecutar "scoop bucket add FrontasticGmbH_scoop-bucket https://github.com/FrontasticGmbH/scoop-bucket.
+
+#### Error
+
+RPC failed; curl 56 Recv failure: Connection was reset
+
+#### Solución
+
+Este error es asociado a la conexión de tu pc. Revisar la conexión, vpn, firewalls, etc.
