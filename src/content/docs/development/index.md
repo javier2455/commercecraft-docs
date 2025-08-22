@@ -1,14 +1,5 @@
 ---
-title: Development
-description: Índice de la sección de desarrollo.
+title: Commercecraft Docs
 ---
 
-# Development
-
-Elige una sección para continuar:
-
-- [Frontend](/development/frontend/)
-- [Backend](/development/backend/)
-
-
-
+Commercecraft Docs es la documentación oficial para el equipo de desarrollo.

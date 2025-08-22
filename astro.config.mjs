@@ -25,6 +25,10 @@ export default defineConfig({
           label: "Development",
           items: [
             {
+              label: "Getting Started",
+              slug: "development",
+            },
+            {
               label: "Backend",
               items: [
                 {
@@ -46,7 +50,6 @@ export default defineConfig({
                 {
                   label: "Nested Data 1",
                   slug: "development/backend/nested-data-create-product-type",
-                  badge: { text: "Nuevo", variant: "tip" },
                 },
               ],
             },
