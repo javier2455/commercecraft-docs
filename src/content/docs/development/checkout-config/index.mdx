@@ -1,0 +1,182 @@
+---
+title: "Checkout Config"
+---
+
+Configuración de una Herramienta del Sistema
+
+### Paso 1: Crear un API Client en el MC
+
+**Creación del API Client:**
+
+ Scopes seleccionados:
+- Checkout sessions
+- Checkout payment intents
+- Products
+- Payments
+- Order Edits
+- Customers
+- Cart discounts
+- Discount codes
+- Shipping methods
+- Customer groups
+- Types
+- Categories
+- Extensions
+- Shipping list
+- Orders
+- Project Settings
+- Payments
+- Orders
+- Shipping list
+- Profile
+- Create anonymous token
+
+### Paso 2: Crear otro API Client para el Checkout
+
+1. **Creación del API Client:**
+
+- Scopes seleccionados:
+    - Checkout payment intents
+    - Checkout sessions
+    - Orders
+    - Payments
+    - Introspect QAuth Tokens
+    - View API clients
+
+2. **Ingresar los datos del API del usuario en el Studio**
+
+### Paso 3: Configuración en el MC Organizaciones
+
+1. **Selección de Organización:**
+    - Ir a MC Organizaciones, seleccionar la organización en la que se está trabajando.
+    - Navegar a "Connect".
+
+2. **Instalación de Public Connectors:**
+    - Buscar "Sample payment connector for checkout" y seleccionar "Install".
+    - Seleccionar "Install for selected projects" y elegir el proyecto correspondiente.
+
+3. **Datos de la API de Checkout:**
+    - Proporcionar los siguientes datos adicionales:
+    - `CTP_JWKS_URL: https://mc-api.europe-west1.gcp.commercetools.com/.well-known/jwks.json`
+    - `CTP_JWT_ISSUER: https://mc-api.europe-west1.gcp.commercetools.com`
+    - `CTP_SESSION_URL: https://session.europe-west1.gcp.commercetools.com`
+    - Esperar a que la instalación termine.
+
+4. **Importación de Datos en Impex:**
+
+    - Ir a [Impex](https://impex.europe-west1.gcp.commercetools.com/playground?endpoint=project&method=update-info) en la región correspondiente.
+    - Importar los siguientes datos al proyecto (puede requerir cambiar el número de versión, revisar los logs):
+    ```json
+    {
+     "version": 12,
+     "actions": [
+      {
+      "action": "changeCountryTaxRateFallbackEnabled",
+      "countryTaxRateFallbackEnabled": true
+      }
+     ]
+    }
+    ```
+
+5. **Configuración de Taxes:**
+
+- Ir a "Project Settings" del proyecto y en la sección "Taxes":
+    - Editar la configuración existente.
+    - Agregar un tax rate por cada idioma (país) con un rate de 0.01. Marcar "Tax included price" como "No". Si es el país de origen de la web, marcar "Yes" en "tax included in price".
+
+6. **Configuración Internacional:**
+
+- En "Project Settings", sección "International":
+    - Agregar todos los países con los que se está trabajando en "country codes".
+
+7. **Instalación de Custom Applications:**
+
+- Ir a "Organizaciones y equipos/Custom Applications/Install Custom Applications/commercetools Checkout".
+- Una vez instalado el conector y commercetools Checkout del paso anterior, en el MC debería aparecer la opción "commercetools Checkout".
+- Seleccionar "Add application" en esa sección.
+
+8. **Agregar Complete Checkout:**
+
+- Nombre: `demo-commercetools-checkout-taxes`
+- Key: `demo-commercetools-checkout-taxes`
+- Logo URLs: Buscar en internet y copiar la URL del logo.
+- Country: Seleccionar uno de los disponibles.
+- Origin URL: URL del sitio, ej: `https://poc-cartier.frontend.site`
+- Guardar.
+
+9. **Activación de User Agreements:**
+
+- Ir a la sección "User Agreements" y activarla.
+    - `name`: agreement
+    - `user agreement text`: URL del sitio en CT.
+    - Marcar la opción "display text only".
+- Guardar y activar el acuerdo.
+
+10. **Agregar Payment Methods:**
+
+- Ir a "Payment methods via connect".
+- Crear un método de pago:
+    - Seleccionar "Sample payment connector for checkout".
+    - En "payment method" seleccionar "card".
+    - `name`: Card
+- Guardar y activar.
+
+11. **Agregar Aplicaciones Adicionales:**
+
+- Repetir el proceso de "Add application" para otros idiomas, cambiando el nombre.
+- En "overview" estarán las API keys necesarias para la configuración del Studio en la parte del checkout, una para cada idioma.
+- Guardar.
+
+### Detalle en los Test
+
+- No se puede usar cualquier tarjeta, debe ser una válida:
+
+[Documentación de commercetools](https://docs.commercetools.com/foundry/blueprint-b2c-retail/configure-payment-and-tax)
+
+Si es B2B
+
+> packages/poc/frontend/src/mocks/projectSettings.ts
+
+```tsx
+const projectSettings = {packages/poc/frontend/src/lib/hooks/useProjectSettings/index.ts
+  name: 'demo_standard_textile',
+  projectKey: 'demo_standard_textile',
+  countries: ['US'],
+  currencies: ['USD'],
+  languages: ['en-US'],
+  region: 'us-central1.gcp',
+};
+```
+> packages/poc/frontend/src/lib/hooks/useProjectSettings/index.ts
+
+Sustituir el project settings que hay ahi por este
+
+```tsx
+const projectSettings = {
+  name: 'demo_standard_textile',
+  projectKey: 'demo_standard_textile',
+  countries: ['US'],
+  currencies: ['USD'],
+  languages: ['en-US'],
+  region: 'us-central1.gcp',
+};
+
+//Test
+import { projectSettings as mockProjectSettings } from '@/mocks/projectSettings';
+
+const useProjectSettings = () => {
+  const projectSettings = mockProjectSettings;
+
+  // Simula la estructura de respuesta que useSWR proporcionaría
+  const response = {
+    data: { data: projectSettings, isError: false },
+    error: null,
+    isLoading: false,
+  };
+
+  return { ...response, projectSettings };
+};
+
+export default useProjectSettings;
+```
+

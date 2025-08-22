@@ -1,0 +1,57 @@
+---
+title: "Project setup by Luciano"
+---
+
+[https://commercetools.atlassian.net/wiki/spaces/SCC/pages/493257156/Store+Launchpad+for+B2C+Setup+Checkout+Integration+Guideline](https://commercetools.atlassian.net/wiki/spaces/SCC/pages/493257156/Store+Launchpad+for+B2C+Setup+Checkout+Integration+Guideline)
+
+[https://www.notion.so/commercetools-inoff/Setting-up-CoFe-CoCo-B2C-incl-Commercetools-Checkout-Config-be963925a70543e9a342fa81f4f4f474](https://www.notion.so/commercetools-inoff/Setting-up-CoFe-CoCo-B2C-incl-Commercetools-Checkout-Config-be963925a70543e9a342fa81f4f4f474)
+
+[https://commercetools.com/blog/a-blueprint-for-composable-commerce-based-on-commercetools
+](https://commercetools.com/blog/a-blueprint-for-composable-commerce-based-on-commercetools)
+
+Support:
+
+[https://commercetools.atlassian.net/servicedesk/customer/portals](https://commercetools.atlassian.net/servicedesk/customer/portals)
+
+### Checkout
+
+#### URLS for Checkout APP
+
+- CTP_JWKS_URL: [https://mc-api.europe-west1.gcp.commercetools.com/.well-known/jwks.json](https://mc-api.europe-west1.gcp.commercetools.com/.well-known/jwks.json)
+- CTP_JWT_ISSUER: [https://mc-api.europe-west1.gcp.commercetools.com ](https://mc-api.europe-west1.gcp.commercetools.com)
+- CTP_SESSION_URL: [https://session.europe-west1.gcp.commercetools.com](https://session.europe-west1.gcp.commercetools.com)
+
+#### CoFe + Checkout
+
+<img src="/luciano/luciano1.png" alt="Luciano Set-Up Project Image 1" />
+
+#### Checkout APP
+
+<img src="/luciano/luciano2.png" alt="Luciano Set-Up Project Image 2" />
+
+- CTP_JWKS_URL: [https://mc-api.europe-west1.gcp.commercetools.com/.well-known/jwks.json](https://mc-api.europe-west1.gcp.commercetools.com/.well-known/jwks.json)
+- CTP_JWT_ISSUER: [https://mc-api.europe-west1.gcp.commercetools.com ](https://mc-api.europe-west1.gcp.commercetools.com)
+- CTP_SESSION_URL: [https://session.europe-west1.gcp.commercetools.com](https://session.europe-west1.gcp.commercetools.com)
+
+#### API CALL For All Us Taxes
+
+[https://impex.europe-west1.gcp.commercetools.com/playground?endpoint=project&method=update-info](https://impex.europe-west1.gcp.commercetools.com/playground?endpoint=project&method=update-info)
+
+```json
+{
+    "version":12,
+    "actions" :[
+        {
+            "action": "changeCountryTaxRateFallbackEnabled",
+            "countryTaxRateFallbackEnabled": true
+        }
+    ]
+}
+```
+
+#### Locales
+
+[https://docs.commercetools.com/foundry/blueprint-b2c-retail/project-configuration](https://docs.commercetools.com/foundry/blueprint-b2c-retail/project-configuration)
+
+[https://www.notion.so/commercetools-inoff/Adding-locale-to-b2c-frontend-e5832239c09f488cafa3144fbece3d55](https://www.notion.so/commercetools-inoff/Adding-locale-to-b2c-frontend-e5832239c09f488cafa3144fbece3d55)
+

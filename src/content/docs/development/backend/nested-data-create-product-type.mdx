@@ -1,0 +1,117 @@
+---
+title: "Nested Data"
+---
+
+### Paso 1 - Crear product type:
+
+```json
+{
+ "key": "coffeeTypeDesc-entry",
+ "name": "Coffee Type Description - Entry",
+ "description": "Name-color pair of a type of coffee",
+ "attributes": [
+  {
+   "name": "coffeeTypeName",
+   "label": { "en": "Coffee Type Name" },
+   "type": { "name": "text" },
+   "isRequired": true,
+   "isSearchable": false
+  },
+  {
+   "name": "coffeeTypeColor",
+   "label": { "en": "Coffee Type Color" },
+   "type": { "name": "text" },
+   "isRequired": true,
+   "isSearchable": false
+  }
+ ]
+}
+```
+
+### Paso 2 - Crear o actualizar el product type que usara ese atributo:
+
+#### Crear
+
+```json
+{
+ "key": "main-product-type",
+ "name": "Producto con specs",
+ "description": "Producto que incluye especificaciones con imagen",
+ "attributes": [
+  {
+   "name": "specs",
+   "label": { "en": "Specs (name+image)" },
+   "type": {
+    "name": "set",
+    "elementType": {
+     "name": "nested",
+     "typeReference": {
+      "typeId": "product-type",
+      "id": "5bb07010-0e6e-4dc2-9158-1b4e2882f56a"
+     }
+    }
+   },
+   "attributeConstraint": "SameForAll",
+   "isRequired": false,
+   "isSearchable": false
+  }
+ ]
+}
+```
+
+#### Actualizar
+
+```json
+{
+ "version": 32,
+ "actions": [
+  {
+   "action": "addAttributeDefinition",
+   "attribute": {
+    "name": "specs",
+    "label": { "en": "Specs (name+image)" },
+    "type": {
+     "name": "set",
+     "elementType": {
+      "name": "nested",
+      "typeReference": {
+       "typeId": "product-type",
+       "id": "5bb07010-0e6e-4dc2-9158-1b4e2882f56a"
+      }
+     }
+    },
+    "attributeConstraint": "SameForAll",
+    "isRequired": false,
+    "isSearchable": false
+   }
+  }
+ ]
+}
+```
+
+** No SET **
+
+```json
+{
+ "version": 38,
+ "actions": [
+  {
+   "action": "addAttributeDefinition",
+   "attribute": {
+    "name": "coffeTypeDesc",
+    "label": { "en": "Coffe Type Description (name+color)" },
+    "type": {
+    "name": "nested",
+    "typeReference": {
+     "typeId": "product-type",
+     "id": "5bb07010-0e6e-4dc2-9158-1b4e2882f56a"
+    }
+    },
+    "attributeConstraint": "SameForAll",
+    "isRequired": false,
+    "isSearchable": false
+   }
+  }
+ ]
+}
+```

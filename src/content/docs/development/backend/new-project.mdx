@@ -1,0 +1,142 @@
+---
+title: Pasos para crear un nuevo proyecto
+---
+
+import { Aside } from "@astrojs/starlight/components";
+
+### Requisitos Preliminares
+
+- URL del sitio actual: Asegúrate de tener acceso a la URL actual para entender el entorno donde se desplegará el nuevo sistema.
+- Descripción: Proporciona una descripción clara del alcance y objetivos del proyecto.
+- Contexto del cliente: Comprende el contexto del negocio del cliente, incluyendo si es B2B o B2C, ya que esto influirá en las funcionalidades a implementar.
+
+### Paso 1: Configuración del Proyecto
+
+<Aside>
+    Recomendación de Rubén, crear el proyecto en Google Cloud, porque AWS no tiene todas las features de importación.
+
+    * Import API (especial, distinta a la API de productos, que esa sí que funciona en ambos)
+    * Formulario para subir productos desde el MC
+
+</Aside>
+
+Creación de Instancia de CoFe (habilitada por CommerceTools)
+
+- Accede a la consola de administración de commercetools y crea una nueva instancia. Usa un nombre descriptivo como demo-[nombre-del-proyecto].
+- Define si el proyecto será B2B o B2C, ya que esto afectará las características y módulos a incluir.
+
+Creación del Proyecto en la Plataforma de E-commerce:
+
+- Registra el proyecto o la organización en la plataforma de comercio electrónico de commercetools.
+
+<Aside>
+Creación de la API del Cliente:
+
+Es posible no crear la API, Rubén nos recomienda hacer las personalizaciones dentro de la parte del proyecto del backend del propio CoFe. Te ahorras bastante según Rubén. Lo que hoy sirve en CoFe, es posible que dentro de un año haya cambiado bastante, porque el producto está evolucionando.
+
+- Configura y personaliza la API del cliente según las necesidades específicas del proyecto (B2B o B2C).
+- Descarga las variables de entorno necesarias para la autenticación y el acceso a la API.
+</Aside>
+
+B2C/terraform:
+
+- Initializar el nuevo project de MC (boostrap)
+
+Configuración de la API de Administración:
+
+- Configura la API de administración y asegúrate de obtener todas las variables de entorno pertinentes.
+
+### Paso 2: Scraping
+
+- Definicion inicial en la tarea con los datos necesarios a scrapear.
+- Utiliza Octoparse para extraer los datos de los productos relevantes del sitio actual. Consulta tutoriales o documentación específica para aprender a usar esta herramienta adecuadamente.
+
+### Paso 3: Configuración Frontend
+
+Conexión con CoFe y CoCo:
+
+- Una vez configurado el backend, sigue las instrucciones por correo electrónico para conectar las plataformas y configurar las credenciales necesarias.
+
+Configuración en GitHub:
+
+- Acepta la invitación en GitHub para acceder al repositorio del proyecto.
+
+Ajustes en CoCo:
+
+- En la sección de ajustes, actualiza CTP-PROJECT-KEY, CTP-CLIENT-SECRET, y CTP-CLIENT-ID para los entornos de producción, staging y desarrollo.
+
+Configuración de Páginas y Plantillas:
+
+- Configura las páginas dinámicas y componentes UI según las necesidades del proyecto, habilitando o deshabilitando características específicas.
+
+Publicación de Cambios:
+
+- Publíca los cambios realizados en las configuraciones de las páginas y componentes.
+
+### Paso 4: Importación y Manejo de Datos
+
+- Manejo de los datos
+
+  - Con los datos obtenidos en el paso 2 del scraping realizamos su transformación para poder ser insertados vía api. (Actualmente csv).
+
+- Transformación de datos vía API!  Proyecto: APP Mapeo
+
+- Importar datos
+  - Con el uso de la herramienta demo-boostrap o https://github.com/commercetools/project-bootstrap insertamos los productos, categorías y variantes de los productos. Proyecto: APP Mapeo
+
+### Paso 5: Desarrollo Frontend
+
+Sitio Oficial de [Documentación Frontend](https://docs.commercetools.com/frontend-development).
+
+- Clonación y Configuración del Repositorio:
+
+  - Clona el repositorio de GitHub.
+
+- Instalación de Frontastic en tu entorno de desarrollo (Solo una vez):
+
+  - Abrir PowerShell sin permisos de admin
+  - Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+  - iwr -useb get.scoop.sh | iex
+  - scoop bucket add FrontasticGmbH_scoop-bucket https://github.com/FrontasticGmbH/scoop-bucket
+  - scoop install frontastic-cli
+  - frontastic --version
+  - Mas info en https://docs.commercetools.com/frontend-getting-started/developing-with-commercetools-frontend#install-the-cli
+
+- Obtención del token de la API:
+
+  - https://docs.commercetools.com/frontend-getting-started/developing-with-commercetools-frontend#get-your-api-token-from-the-studio
+
+- Inicializa frontastic en el proyecto: (Una vez por proyecto)
+
+  - https://docs.commercetools.com/frontend-getting-started/developing-with-commercetools-frontend#set-up-your-project-locally
+
+- Correr el proyecto: frontastic run
+
+- Crear un componente nuevo en mi proyecto:
+
+  - En el proyecto local ir a /frontend/components ahi creamos nuestro componente en React.
+  - En el proyecto local ir a /frontend/frontastic/tastics/ esta carpeta tiene una minirepresentacion de los componentes que tenemos.
+  - Crear una carpeta con el nombre del componente. Crear el archivo index.tsx, en este archivo importamos los bloques de react del componente que ya creamos en el paso 1. Este index siempre es igual solo cambia la importacion del componente real.
+  - Crear el fichero schema.
+  - Ir a /frontend/tastics/index.tsx importar el tastic que ya creamos.
+  - Subir a la rama principal del proyecto.
+  - Ir al studio.io:
+    - Dentro del studio vas a componentes ahi veremos todos los schemas que teniamos en tastics, y lo que hacemos es importar el schema que ya creamos anteriormente o creamos un nuevo schema donde la clave sera la clave-valor que pusimos en frontend/tastics/index.tsx dentro de export const tastics
+    - Esto hay que hacerlo tanto para el entorno de desarrollo como el de produccion dentro del studio.
+    - Dentro del studio es como vamos a integrar todos los componentes que ya tenemos en los schemas. Dynamic pages/ ahi tenemos todas las paginas para ser editar. (Ojo si ya una pagina esta desplegada en prod no podemos editarla desde development). Mas detalle en el video.
+    - Para los grupos de componentes como el footer o el header se editan en Templates/Components groups
+
+- Editar un componente: Al editar un componente solo debemos ir al proyecto /frontend/components y  hacer los ajustes que queramos dentro del mismo componente. Cambiar la ubicacion o visualizacion del componente ya se hace dentro del studio como se explcia en el paso anterior 7.b.
+- Integrar productos, categorias con el fornt. En el studio vamos a la pagina dinamica donde salen los productos visualmente y cambiamos el data source de ser necesario por una query, ids o skus o igual poner un filtro. Si es un PDP, detalle del producto es distinto el data source. En el component se deben referencias los atributos con el mismo nombre que esta en el studio.
+
+<Aside>
+* project_key:poc-volkswagende
+* client_id: 3VG_9qj64L1EbMC7CjHfW1eG
+* secret: KZXFL5NnlNbeFfM1IHNJCbY_-huqPo2U
+
+Datos especiales del admin:
+
+- client_id: K2XYZlW6-C9V464ICQjaH3W4
+- secret: PK4XltJh50f8YxIticumfIdjp--ugoIB
+
+</Aside>

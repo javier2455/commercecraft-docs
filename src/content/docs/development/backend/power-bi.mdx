@@ -1,0 +1,108 @@
+---
+title: "Pasos para trabajar con Power BI"
+---
+
+### Paso 1: Acceder al sitio web
+
+Acceder a la siguiente URL: [https://app.powerbi.com/home?experience=power-bi](https://app.powerbi.com/home?experience=power-bi)
+
+### Paso 2: Acceder al sitio web
+
+<img src="/power-bi/powerbi1.png" alt="Power BI Image 1" />
+
+En Power BI, las áreas de trabajo suelen organizarse en entornos de desarrollo, prueba y producción para gestionar eficazmente el ciclo de vida de los informes y paneles. Aunque las convenciones de nomenclatura pueden variar, es común utilizar prefijos como "000LOAD", "000DEV" y "000PRO" para identificar cada entorno. A continuación, se detallan las funciones típicas de cada uno:
+
+#### 000LOAD (Carga):
+
+- **Función Principal**: Este entorno se utiliza para la ingesta y preparación inicial de datos. Aquí se conectan las fuentes de datos, se realizan transformaciones preliminares y se cargan los datos en modelos que serán utilizados en etapas posteriores.
+- **Características Clave**:
+    - Conexión a diversas fuentes de datos.
+    - Aplicación de procesos ETL (Extracción, Transformación y Carga).
+    - Validación inicial de la calidad y consistencia de los datos.
+
+#### 000DEV (Desarrollo):
+
+- **Función Principal**: Es el entorno donde se diseñan y desarrollan los informes y paneles. Los desarrolladores crean visualizaciones, establecen relaciones entre datos y aplican lógica de negocio.
+- **Características Clave**:
+    - Creación y modificación de informes y dashboards.
+    - Implementación de medidas y cálculos DAX.
+    - Pruebas unitarias de funcionalidades y visualizaciones.
+
+#### 000PRO (Producción):
+
+- **Función Principal**: Este es el entorno final donde los informes y paneles, una vez validados, se despliegan para su uso por parte de los usuarios finales. Se asegura que el contenido sea confiable y esté optimizado para el consumo general.
+- **Características Clave**:
+    - Acceso controlado para los usuarios finales.
+    - Monitoreo del rendimiento y uso de los informes.
+    - Mantenimiento y actualizaciones según sea necesario.
+
+#### Relación entre las Áreas:
+
+- **Flujo de Trabajo**: Los datos se cargan y preparan en 000LOAD, luego se desarrollan y prueban los informes en 000DEV, y finalmente se despliegan para su consumo en 000PRO.
+- **Control de Calidad**: Esta estructura permite una gestión efectiva del ciclo de vida del desarrollo, asegurando que solo el contenido validado llegue a producción, minimizando errores y garantizando la calidad de la información proporcionada a los usuarios finales.
+
+Es importante destacar que estas convenciones de nomenclatura pueden variar según la organización y sus prácticas internas. Sin embargo, la separación en entornos de carga, desarrollo y producción es una práctica recomendada para mantener la integridad y calidad de los proyectos en Power BI.
+
+### Paso 3 - 000LOAD
+
+#### Añadiendo un nuevo proyecto
+
+Accedemos a **000LOAD** donde nos aparecerán una lista de proyectos, buscaremos el último proyecto y al pasar el mouse por encima de él se despliega un menú horizontal, seleccionaremos los 3 puntos y **Exportar .json**. El cuál nos exporta una copia del proyecto seleccionado.
+
+<img src="/power-bi/powerbi2.png" alt="Power BI Image 2" />
+
+Luego en la parte superior hacemos clic en Nuevo elemento, seleccionamos todos los elementos y buscamos **Flujo de datos Gen1**.
+
+<img src="/power-bi/powerbi3.png" alt="Power BI Image 3" />
+
+Nos saldrá un recuadro **Desea crear un flujo de datos Gen2 en su lugar?** y presionamos que **No**. Luego nos saldrá el siguiente recuadro:
+
+<img src="/power-bi/powerbi5.png" alt="Power BI Image 5" />
+
+Damos clic en **importar modelo**, y seleccionamos el **JSON** anteriormente descargado. Luego de importar el archivo volveremos a **000LOAD** esperemos que se listen los proyectos y buscaremos el proyecto exportado anteriormente pero el que termina en **(1)**. A este proyecto le tenemos que cambiar el nombre, hacemos el mismo paso que **Exportar .json**, pero ahora hacemos clic en **Propiedades**, se despliega un menu lateral derecho y en **Nombre** nos aparece **ct_####**, solo debemos reemplazar los números por el correspondiente al proyecto que estés trabajando.
+
+#### Obteniendo datos del proyecto.
+
+Accedemos a **Odoo** y buscamos el proyecto en el cual estamos trabajando y en la parte superior derecha aparecen 3 puntos, hacemos clic y damos en **View**.
+
+<img src="/power-bi/powerbi6.png" alt="Power BI Image 6" />
+
+Nos cargará la siguiente imagen: 
+
+<img src="/power-bi/powerbi7.png" alt="Power BI Image 7" />
+
+**ID** obtendremos el número del proyecto ejemplo el nombre del **Flujo de Datos Gen1** sería para este caso **ct_0122**.
+
+Luego en la barra de tareas, que está en la parte inferior, que se aprecia en la imagen anterior vamos a la pestaña **BI**. La siguiente imagen muestra los datos para este proyecto:
+
+<img src="/power-bi/powerbi8.png" alt="Power BI Image 8" />
+
+Estos datos serán necesarios para configurar el **Flujo de Datos Gen1** de este proyecto, para ellos de vuelta en **000LOAD** y ya con nuestro proyecto con el nombre actualizado hacemos clic sobre nuestro proyecto para este caso sería el **ct_0122** nos aparecerá lo siguiente:
+
+<img src="/power-bi/powerbi9.png" alt="Power BI Image 9" />
+
+En la parte superior derecha hacemos clic en **Editar tablas** luego nos cargará una serie de datos:
+
+<img src="/power-bi/powerbi10.png" alt="Power BI Image 10" />
+
+Buscamos en **Consultas -> Project Parameters** y lo expandimos, debemos actualizar cada uno de los datos con los datos del proyecto que se esté trabajando, estos datos se obtienen de la **Pestaña BI** antes mencionado. Luego de actualizado cada uno de los datos por el proyecto correspondientes pasamos a **Guardar y cerrar** para aplicar cambios, lo cuál aparecerá una nueva pestaña encargada de validar cada una de las consultas del proyecto:
+
+<img src="/power-bi/powerbi11.png" alt="Power BI Image 11" />
+
+Si todo esta correcto ya tendremos el proyecto configurado y el primer paso vencido. En caso de que alguna consulta de error debemos expandir **Data**, buscar la consulta o las consultas con problema y inhabilitarla, esto se hace dando clic encima de la consulta con problemas como está en la siguiente imagen y desmarcando **Habilitar carga**. Luego de eso volvemos a guardar los cambios y si todo está bien deben aplicarse los cambios sin problemas.
+
+<img src="/power-bi/powerbi12.png" alt="Power BI Image 12" />
+
+Luego regresamos nuevamente a **000LOAD** buscamos el proyecto en que estamos trabajando y damos actualizar como muestra la imagen siguiente:
+
+<img src="/power-bi/powerbi13.png" alt="Power BI Image 13" />
+
+Luego ahí mismo tocamos los 3 puntos y vamos a **Configuraciones** y nos cargaran varias pestañas nosotros nos centraremos en **Flujo de datos**.
+
+<img src="/power-bi/powerbi14.png" alt="Power BI Image 14" />
+
+Damos en Actualizar y lo configuraremos como la siguiente imagen:
+
+<img src="/power-bi/powerbi15.png" alt="Power BI Image 15" />
+
+### Paso 4 - 000DEV

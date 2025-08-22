@@ -1,0 +1,76 @@
+---
+title: "Como Agregar o Cambiar Idiomas en el Proyecto"
+---
+
+```typescript
+countries = ["GB", "US", "AU", "NZ", "ES", "FR", "DE", "IT", "PT", "NL"];
+currencies = ["EUR", "GBP", "USD", "AUD", "NZD"];
+languages = [
+  "en-US",
+  "en-GB",
+  "en-AU",
+  "en-NZ",
+  "de-DE",
+  "es-ES",
+  "fr-FR",
+  "it-IT",
+  "pt-PT",
+  "nl-NL",
+];
+```
+
+1. **File: `project.config.ts`**
+
+- **Purpose:** Define the languages available on the site.
+
+- **Task:** Add new languages to the localization mapper.
+
+```typescript
+const localizationMapper = {
+ en: {
+    locale: 'en_US',
+    currency: 'USD',
+    currencyCode: '$',
+    countryCode: 'US',
+    countryName: 'United States',
+    },
+ fr: {
+    locale: 'fr_FR',
+    currency: 'EUR',
+    currencyCode: '€',
+    countryCode: 'FR',
+    countryName: 'France',
+    },
+ it: {
+    locale: "it_IT",
+    currency: "EUR",
+    currencyCode: "€",
+    countryCode: "IT",
+    countryName: "Italy",
+  },
+} as Record<string, LocalizationMapping>;
+```
+Si es el mismo idioma, diferente currency:
+
+> project.config:
+
+```typescript
+'en-US': {
+  locale: 'en-US',
+  localeName: 'English-US',
+  currency: 'USD',
+  currencyCode: '$',
+  countryCode: 'US',
+  countryName: 'United States',
+  countries: ['US'],
+},
+'en-GB': {
+  locale: 'en-GB',
+  localeName: 'English-GB',
+  currency: 'GBP',
+  currencyCode: '£',
+  countryCode: 'GB',
+  countryName: 'United Kingdom',
+  countries: ['GB'],
+},
+```

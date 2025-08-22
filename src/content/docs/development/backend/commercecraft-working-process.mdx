@@ -1,0 +1,363 @@
+---
+title: CommerceCraft Working Process
+---
+
+This document details a robust process for extracting and transforming data from a website to establish a functional e-commerce platform, focusing on methodology and organization.
+
+### Understanding the Data Source
+
+The starting point is the target website, from which we will extract the raw data. This involves:
+
+**Website**: The specific online source for data extraction.
+
+**Languages:** The languages in which data fields need to be translated (e.g., Korean, English).
+
+**Categories**: The website's hierarchical structure, defining categories for product organization. Visual examples of the hierarchy are provided to understand the relationships between categories.
+
+<img src="/commercecraft/c1.png" alt="CommerceCraft Working Process Image 1" />
+
+### Defining Products and Attributes
+
+**Product Representation**: This defines the core elements of a product, encompassing attributes such as:
+
+1. **Product Type**: The general classification of the product (e.g., fruits, vegetables, dairy).
+2. **Project Organization**: A Structured Approach
+3. **Price**: The monetary value of the product.
+4. **Quantity**: The amount available for purchase.
+5. **Description**: Detailed information about the product's characteristics.
+6. **Reviews**: User feedback and ratings.
+7. **Seller**: The vendor providing the product.
+8. **Other Attributes**: Additional product-specific details (e.g., labels, certifications).
+
+### Project Organization: A Structured Approach
+
+**Google Drive Project Folder**: A centralized location for all project files named "Projects."
+
+**Project Folder Structure**: Six dedicated subfolders within the project folder, each fulfilling a specific task:
+
+1. Configuration: Houses the project configuration file, defining data structures, field types, and their relationships.
+2. Scraping: Contains scripts responsible for extracting data from the website.
+3. Transformation: Scripts for converting extracted data into a desired format for processing.
+4. Frontend: Scripts and files related to the user interface (if applicable).
+5. Q/A: Manages any questions or validation processes during data handling.
+6. Delivery: Contains the final output of the data transformation process.
+
+<img src="/commercecraft/c2.png" alt="CommerceCraft Working Process Image 2" />
+
+### Project Configuration: The Data Blueprint
+
+**Configuration File**: A Google Sheet acts as the central configuration file, defining data types, fields, and their connections to product types. This is a dynamic document, allowing for easy updates as the project evolves.
+
+**AppScripts**: Three scripts enhance the configuration process:
+
+**Categories.gs**: Manages the organization and relationships between product categories.
+
+**Products.gs**: Handles product details and attributes, defining their structure.
+
+**PTY-ATT.gs**: Links product types to their attributes, facilitating the creation of product types within the Commercetools.com platform.
+
+<img src="/commercecraft/c3.png" alt="CommerceCraft Working Process Image 3" />
+
+<img src="/commercecraft/c4.png" alt="CommerceCraft Working Process Image 4" />
+
+### Integrating with Commercetools: Building the E-commerce Platform
+
+Sitio Oficial de [CommerceTools](http://commercetools.com/)
+
+**Commercetools Integration**: The project leverages Commercetools.com, a cloud-based e-commerce platform, for product type creation and management.
+
+**Product Type Creation**: The configuration data is used to create product types within the Commercetools merchant center, defining the structure of products for an e-commerce environment.
+
+### Scraping Categories: Structuring the Product Hierarchy
+
+**Category Extraction**: A CSV file is used to define the categories, employing the Commercetools.com platform for processing.
+
+**CSV File Fields**: The CSV file contains essential fields:
+
+**key**: A unique identifier for the category.
+
+**externalId**: An external reference for the category.
+
+**parent.key**: The parent category's key for hierarchical relationships.
+
+**parent.typeId**: The type of parent category.
+
+**orderHint**: Specifies the ordering of categories within a list.
+
+**image**: Image associated with the category (if applicable).
+
+**name.en-US**: Category name in English.
+
+**description.en-US**: Description of the category in English.
+
+**slug.en-US**: A user-friendly URL-safe representation of the category name in English.
+
+**metaTitle.en-US**: A title for the category, used for SEO purposes in English.
+
+**metaDescription.en-US**: A description for the category, used for SEO purposes in English.
+
+**metakeywords.en-US**: Keywords associated with the category, used for SEO purposes in English.
+
+This section details the process of extracting and organizing your website's categories for use in your e-commerce platform, specifically focusing on the Commercetools.com platform.
+
+#### The Importance of Categories:
+
+**Navigation**: Well-defined categories provide a clear and organized structure for customers to navigate your products, making their shopping experience more efficient and enjoyable.
+
+**Product Organization**: Categories help classify and group products logically, improving searchability and making it easier for customers to find what they're looking for.
+
+**SEO Optimization**: Categories can be used for search engine optimization (SEO) purposes, helping your website rank higher in search results.
+
+#### Preparing for Category Scraping:
+
+**Identify Category Levels**: Determine the levels of hierarchy in your website's category structure. For example, you might have a top-level category like "Fruits" and then subcategories like "Apples," "Oranges," etc.
+
+**Define Key Fields**: Identify the key fields you need to extract for each category:
+
+**key**: A unique identifier for the category (e.g., "fruits", "apples", "oranges").
+
+**externalId**: An external reference (if applicable) for the category.
+
+**parent.key**: The key of the parent category (for hierarchical relationships).
+
+**parent.typeId**: The type of the parent category.
+
+**orderHint**: Determines the order in which categories appear in a list (optional).
+
+**name.en-US**: The English name of the category (translate for other languages).
+
+**description.en-US**: A brief description of the category in English (translate for other languages).
+
+**slug.en-US**: A user-friendly, URL-safe version of the category name (translate for other languages).
+
+**metaTitle.en-US**: A title for the category used for SEO purposes in English (translate for other languages).
+
+**metaDescription.en-US**: A description of the category for SEO purposes in English (translate for other languages).
+
+**metakeywords.en-US**: Keywords associated with the category for SEO purposes in English (translate for other languages).
+
+**image**: URL for an image associated with the category (optional).
+
+#### Scraping Categories with Tools:
+
+**Web Scraping Libraries**: Use libraries like Beautiful Soup (Python) or Cheerio (Node.js) to parse the HTML content of your website and extract the required category information.
+
+**Web Scraping Services**: Consider using web scraping services if you need a more robust and scalable solution. These services can handle complex websites and large data volumes.
+
+#### Creating a CSV File:
+
+**Structure**: Organize the extracted category data into a comma-separated values (CSV) file. Each row represents a category, and each column corresponds to a field (e.g., key, name, description).
+
+#### Uploading to Commercetools.com:
+
+**Impex Tool**: Utilize the Commercetools.com Impex tool to import your categories into the platform.
+
+**Process**:
+
+1. **Login**: Log in to the Impex tool.
+2. **Select Command**: Choose the "Category Importer" command.
+3. **Select Project**: Select the relevant Commercetools.com project.
+4. **Upload CSV**: Upload the CSV file containing your category data.
+5. **Run Command**: Execute the command to import the categories
+
+### Scraping Products: Extracting Product Information
+
+**Product Extraction**: Similar to category scraping, a CSV file is used to define product attributes.
+
+- **CSV File Fields**: The CSV file contains fields for product attributes, including:
+- **productType** : The product type (e.g., "fruit," "vegetable").
+- **productTypeKey**: The unique key for the product type.
+- **categories**: The category or categories to which the product belongs.
+- **\_hasStagedChanges**: Indicates if there are changes pending for the product.
+- **\_published**: Indicates if the product is published.
+- **createdAt**: The date and time the product was created.
+- **lastModifiedAt**: The date and time the product was last modified.
+- **tax**: The tax rate applicable to the product.
+- **priceMode**: The pricing model used for the product.
+- **key**: A unique identifier for the product.
+- **variantId**: The ID of the product variant (if applicable).
+- **variantKey**: The key for the product variant (if applicable).
+- **sku**: The stock-keeping unit (SKU) for the product.
+- **prices**: The price of the product.
+- **discountedPriceTmp**: The discounted price of the product (if applicable).
+- **images**: Image URLs associated with the product.
+- **name.en-US**: The name of the product in English.
+- **slug.en-US**: A user-friendly URL-safe representation of the product name in English.
+- **description.en-US**: A description of the product in English.
+- **(Additional Attributes)**: Other product-specific attributes defined in the configuration file.
+
+This section outlines the process of extracting product information from your website and preparing it for import into your Commercetools.com e-commerce platform.
+
+#### The Importance of Product Data:
+
+**Accurate Product Representation**: Detailed and accurate product data is crucial for providing customers with a clear understanding of the items they're considering.
+
+**Searchability**: Well-structured product data makes it easier for customers to find the specific products they're looking for.
+
+**Conversions**: Compelling product descriptions, images, and pricing can significantly increase conversion rates.
+
+#### Preparing for Product Scraping:
+
+- **Identify Key Fields**: Determine the essential fields you need to extract for each product:
+- **productType**: The general type of product (e.g., "fruit," "vegetable," "electronics").
+- **productTypeKey**: A unique identifier for the product type.
+- **categories**: The category or categories to which the product belongs.
+- **\_hasStagedChanges**: Indicates if there are changes pending for the product.
+- **\_published**: Indicates whether the product is publicly available.
+- **createdAt**: The date and time the product was created.
+- **lastModifiedAt**: The date and time the product was last modified.
+- **tax**: The tax rate applicable to the product.
+- **priceMode**: The pricing model used for the product.
+- **key**: A unique identifier for the product.
+- **variantId**: The ID of the product variant (if applicable).
+- **variantKey**: The key for the product variant (if applicable).
+- **sku**: The stock-keeping unit (SKU) for the product.
+- **prices**: The price of the product.
+- **discountedPriceTmp**: The discounted price of the product (if applicable).
+
+#### Scraping Products with Tools:
+
+**Web Scraping Libraries**: Use libraries like Beautiful Soup (Python) or Cheerio (Node.js) to parse the HTML content of your website and extract the required product information.
+
+**Web Scraping Services**: Consider using web scraping services for more complex websites or large data volumes.
+
+#### Creating a CSV File:
+
+**Structure**: Organize the extracted product data into a comma-separated values (CSV) file. Each row represents a product, and each column corresponds to a field.
+
+#### Uploading to Commercetools:
+
+**Impex Tool**: Utilize the Commercetools.com Impex tool to import your products into the platform.
+
+**Process**:
+
+1. **Login**: Log in to the Impex tool.
+2. **Select Command**: Choose the "Product Importer" command.
+3. **Select Project**: Select the relevant Commercetools.com project.
+4. **Upload CSV**: Upload the CSV file containing your product data.
+5. **Run Command**: Execute the command to import the products.
+
+### MC API TOOLS
+
+This section delves into critical aspects of managing your e-commerce platform beyond initial data import. We'll focus on updating inventory, applying discounts, and utilizing the shared "MC API TOOLS" Colab notebook for enhanced automation and control. We'll be building upon the code snippets provided, incorporating best practices for handling real-world scenarios.
+
+**images**: Image URLs associated with the product.
+
+**name.en-US**: The name of the product in English (translate for other languages).
+
+**slug.en-US**: A user-friendly, URL-safe version of the product name in English (translate for other languages).
+
+**description.en-US**: A description of the product in English (translate for other languages).
+
+**(Additional Attributes)**: Other product-specific attributes defined in your configuration file (e.g., size, color, material, brand).
+
+The script you provided is a comprehensive set of tools for managing a Commercetools.com e-commerce platform. Here's a breakdown of each section, highlighting its purpose:
+
+1. Section Configuration
+2. Import Inventories
+3. Publish and Unpublish all products
+   Purpose: This section sets up the essential configuration variables needed to interact with the Commercetools API.
+
+#### Key Elements
+
+- **PROJECT_KEY**: Your unique project key identifying your Commercetools.com project.
+- **CLIENT_ID**: Your Commercetools.com client ID for authentication.
+- **CLIENT_SECRET**: Your Commercetools.com client secret for authentication.
+- **AUTH_URL**: The endpoint for obtaining an access token for the API.
+- **API_URL**: The base URL for making API calls to your Commercetools.com project.
+
+**Purpose**
+This section defines functions for generating and managing stock levels (inventories) for products.
+
+#### Key Functions
+
+- **get_access_token()**: Retrieves an access token from the Commercetools.com API using your client ID and secret.
+- **get_products()**: Fetches all products from your Commercetools.com project using the API.
+- **check_and_create_inventory()**: Checks if an inventory entry exists for a given product SKU. If not, it creates a new inventory entry with a random quantity.
+- **process_variant()**: Processes a product variant, generating a random stock quantity and creating an inventory entry if needed.
+- **process_variant_no_stock()**: Processes a product variant, setting the stock quantity to 0.
+- **existence_aware_stock_generator()**: Iterates through all products, applying stock quantities based on a provided list of out-of-stock SKUs.
+- **random_stock_generator()**: Iterates through all products, assigning random stock quantities.
+
+**Purpose** 
+This section defines functions to publish and unpublish all products in your Commercetools project.
+
+#### Key Functions
+
+- **unpublish_all()**: Iterates through all products and unpublishes them.
+- **Delete all products**
+- **Product Discounts**
+- **Create custom type for Categories and assigning it**
+- **Images Handling**
+- **publish_all()**: Iterates through all products and publishes them.
+
+**Purpose**
+This section provides a function to safely delete all products from your Commercetools.com project.
+
+#### Key Functions
+
+- **delete_all()**: Iterates through all products and deletes them.
+- **safe_delete()**: Prompts the user for confirmation before deleting all products.
+
+**Purpose**
+This section implements functions for managing discounts on products.
+
+#### Key Functions
+
+- **get_all_products_to_apply_discounts()**: Fetches all products and their prices, extracting the discounted price (if available).
+- **create_variants_relative_discount()**: Creates a relative discount rule for a set of product SKUs based on a specified discount percentage.
+- **get_all_discounts()**: Fetches all discounts from Commercetools.com.
+- **get_discount_ids()**: Returns a list of all discount IDs.
+- **remove_discount()**: Deletes a specific discount from Commercetools.com.
+
+**Purpose**
+This section focuses on creating a custom type for categories, allowing you to store additional information, like a category image URL.
+
+#### Key Functions
+
+- **create_custom_type()**: Creates a custom type in Commercetools.com.
+- **get_category_by_key()**: Retrieves the category ID and version based on its key.
+- **assign_custom_type_to_category()**: Assigns the custom type to a specific category, along with its associated fields (e.g., image URL).
+
+**Purpose**
+This section is for managing product images, including detecting broken images and uploading new images.
+
+- **get_access_token()**: Retrieves an access token for the specified project key, client ID, and client secret.
+- **fetch_total_count()**: Fetches the total number of products in a project.
+- **get_products()**: Returns an iterator for fetching products from Commercetools.com.
+- **Products' data cleaning**
+- **Populating the Stock and Appling Discounts (using MC API TOOLS)**
+- **get_product_images()**: Gets all images associated with a product.
+- **check_image_exists()**: Checks whether a given image URL is accessible.
+- **check_image_exists_v3()**: A more robust version of check_image_exists() , using a user-agent and timeout.
+- **detect_broken_images()**: Iterates through all products in a project, detecting and reporting broken images.
+- **download_image()**: Downloads image content from a URL.
+- **upload_product_image()**: Uploads an image to a specific product variant in Commercetools.com.
+- **upload_product_external_image()**: Adds an external image URL to a product variant.
+- **remove_variant_images()**: Removes images from a product variant.
+- **get_product_images_by_variant()**: Retrieves images for a product, separating them by variant.
+- **save_image()**: Saves image content to a local file.
+- **revert_all_staged()**: Reverts all staged changes to products (in progress).
+
+**Purpose**
+This section focuses on data cleaning for product data, comparing fields across different languages and identifying potential inconsistencies.
+
+#### Key Functions
+
+- **count_elements()**: Counts the number of elements in a string separated by semicolons.
+- **Comparison logic**: Compares fields in different languages (en-US, fr-CA) to identify potential issues in translations.
+- **bad_translations_by_set_size**: Tracks the number of bad translations based on the number of elements in the set.
+
+**Purpose**
+This section provides code snippets for updating stock levels and applying discounts.
+
+#### Key Functions
+
+- **get_all_products_to_apply_discounts()**: Fetches all products with their prices and discounted prices.
+- **create_variants_relative_discount()**: Creates a relative discount rule for a set of product SKUs.
+- **get_all_discounts()**: Fetches all discounts from Commercetools.com.
+- **get_discount_ids()**: Returns a list of discount IDs.
+- **create_variants_relative_discount()**: Creates a relative discount rule for a set of product SKUs.
+- **get_all_discounts()**: Fetches all discounts from Commercetools.com.
+- **get_discount_ids()**: Returns a list of discount IDs.
+
